@@ -5,7 +5,7 @@ const helmet = require('helmet');
 const { login } = require('./controllers/login');
 const { createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
-// const { handleErrors } = require('./util/handleErrors');
+const { handleErrors } = require('./util/handleErrors');
 const { celebrate, Joi, errors } = require('celebrate');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -32,37 +32,37 @@ app.listen(PORT, () => {
 app.use(requestLogger);
 
 const allowedCors = [
-  // 'https://pyresimesto.nomoreparties.co',
-  // 'https://pyresimesto.nomoreparties.co',
-  // 'https://pyresi.mesto.back.nomoreparties.co',
-  // 'http://pyresi.mesto.back.nomoreparties.co',
+  'https://api.pyresi.movies.nomoredomainsicu.ru',
+  'http://api.pyresi.movies.nomoredomainsicu.ru',
+  'https://pyresi.movies.nomoredomainsicu.ru',
+  'http://pyresi.movies.nomoredomainsicu.ru',
   'localhost:3000'
 ];
 
-// app.use(function (req, res, next) {
-//   const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
+app.use(function (req, res, next) {
+  const DEFAULT_ALLOWED_METHODS = "GET,HEAD,PUT,PATCH,POST,DELETE";
 
-//   const { origin } = req.headers;
-//   if (allowedCors.includes(origin)) {
-//     res.header('Access-Control-Allow-Origin', origin);
-//   }
+  const { origin } = req.headers;
+  if (allowedCors.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
 
-//   const { method } = req;
-//   const requestHeaders = req.headers['access-control-request-headers'];
-//   if (method === 'OPTIONS') {
-//     res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-//     res.header('Access-Control-Allow-Headers', requestHeaders);
-//     return res.end();
-//   }
+  const { method } = req;
+  const requestHeaders = req.headers['access-control-request-headers'];
+  if (method === 'OPTIONS') {
+    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
+    res.header('Access-Control-Allow-Headers', requestHeaders);
+    return res.end();
+  }
 
-//   next();
-// });
+  next();
+});
 
-// app.get('/crash-test', () => {
-//   setTimeout(() => {
-//     throw new Error('Сервер сейчас упадёт');
-//   }, 0);
-// });
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 
 app.post('/signin', celebrate({
   body: Joi.object().keys({
@@ -74,8 +74,6 @@ app.post('/signin', celebrate({
 app.post('/signup', celebrate({
   body: Joi.object().keys({
     name: Joi.string().min(2).max(30),
-    about: Joi.string().min(2).max(30),
-    avatar: Joi.string().pattern(/^(http:\/\/|https:\/\/)(www)?[0-9a-zA-Z-._~:/?#[\]@!$&'()*+,;=]+#?$/),
     email: Joi.string().required().email(),
     password: Joi.string().required(),
   })
@@ -91,15 +89,15 @@ const movieRouter = require('./routes/movies');
 // импортируем роутер
 app.use('/movies', movieRouter); // запускаем
 
-// const otherRouter = require('./routes/other');
+const otherRouter = require('./routes/other');
 
-// app.use('/*', otherRouter);
+app.use('/*', otherRouter);
 
 app.use(errorLogger);
 
-// app.use(errors());
+app.use(errors());
 
 
-// app.use((err, req, res, next) => {
-//   return handleErrors(res, err);
-// });
+app.use((err, req, res, next) => {
+  return handleErrors(res, err);
+});

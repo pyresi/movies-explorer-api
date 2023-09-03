@@ -52,7 +52,7 @@ const movieSchema = new mongoose.Schema({
   },
   movieId: {
     type: Number,
-    requited: [true, 'Поле "owner" должно быть заполнено'],
+    requited: [true, 'Поле "movieId" должно быть заполнено'],
   },
   nameRU: {
     type: String,

@@ -32,12 +32,12 @@ module.exports.patchUserInfo = (req, res, next) => {
 };
 
 module.exports.createUser = (req, res, next) => {
-  const { name, about, avatar, email, password } = req.body;
+  const { name, email, password } = req.body;
   bcrypt.hash(password, 10)
-    .then(hash => User.create({ name, about, avatar, email, password: hash }))
+    .then(hash => User.create({ name, email, password: hash }))
     .then(user => {
-      const { name, about, avatar, email } = user;
-      return res.status(201).send({ data: { name, about, avatar, email } });
+      const { name, email } = user;
+      return res.status(201).send({ data: { name, email } });
     })
     .catch((err) => {
       if (err.code === 11000) {
