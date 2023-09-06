@@ -7,10 +7,10 @@ const { createUser } = require('./controllers/users');
 const { auth } = require('./middlewares/auth');
 const { handleErrors } = require('./util/handleErrors');
 const { celebrate, Joi, errors } = require('celebrate');
+const { DEFAULT_PORT, PRODUCTION_MODE, DEFAULT_DB_URL } = require('./util/constants');
 
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-// Слушаем 3000 порт
 const { NODE_ENV, PORT = DEFAULT_PORT, DB_URL } = process.env;
 
 const app = express();
@@ -92,7 +92,7 @@ const movieRouter = require('./routes/movies');
 app.use('/movies', movieRouter); // запускаем
 
 const otherRouter = require('./routes/other');
-const { DEFAULT_PORT, PRODUCTION_MODE, DEFAULT_DB_URL } = require('./util/constants');
+
 
 app.use('/*', otherRouter);
 
