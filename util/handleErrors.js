@@ -1,3 +1,6 @@
+const { DEFAULT_ERROR_MSG } = require("./constants");
+
+
 module.exports.handleErrors = (res, err) => {
   const { statusCode = 500, message } = err;
 
@@ -6,7 +9,7 @@ module.exports.handleErrors = (res, err) => {
     .send({
       // проверяем статус и выставляем сообщение в зависимости от него
       message: statusCode === 500
-        ? 'На сервере произошла ошибка'
+        ? DEFAULT_ERROR_MSG
         : message
     });
 };

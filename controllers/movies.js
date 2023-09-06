@@ -1,11 +1,12 @@
 const Movie = require('../models/movie');
 const MissingError = require('../util/errors/MissingError');
 const ForbiddenError = require('../util/errors/ForbiddenError');
+const { MISSING_MOVIE_MSG, FORBIDDEN_DELETION_OTHER_USER_MOVIE_MSG, HTTP_SUCCESS_CODE } = require('../util/constants');
 
 function handleAndSendMovie(movie, res) {
   if (movie === null) {
     return Promise.reject(
-      new MissingError('Запрашиваемый фильм не найден'),
+      new MissingError(MISSING_MOVIE_MSG),
     );
   }
   return res.send({ data: movie });
@@ -24,7 +25,7 @@ module.exports.postMovieInfo = (req, res, next) => {
 
 
   Movie.create({ country, director, duration, year, description, image, trailer, nameRU, nameEN, thumbnail, movieId, owner })
-    .then((movie) => res.status(201).send({ data: movie }))
+    .then((movie) => res.status(HTTP_SUCCESS_CODE).send({ data: movie }))
     .catch(next);
 };
 
@@ -33,7 +34,7 @@ module.exports.deleteMovieById = (req, res, next) => {
     .then((movie) => {
       if (movie === null) {
         return Promise.reject(
-          new MissingError('Запрашиваемый фильм не найден'),
+          new MissingError(MISSING_MOVIE_MSG),
         );
       }
 
@@ -41,7 +42,7 @@ module.exports.deleteMovieById = (req, res, next) => {
         return Movie.findByIdAndRemove(req.params.movieId)
       }
       else {
-        return Promise.reject(new ForbiddenError('Невозможно удалить чужой фильм'));
+        return Promise.reject(new ForbiddenError(FORBIDDEN_DELETION_OTHER_USER_MOVIE_MSG));
       }
     })
     .then((movie) => handleAndSendMovie(movie, res))

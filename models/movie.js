@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
+const { BAD_URL_MSG } = require('../util/constants');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -26,7 +27,7 @@ const movieSchema = new mongoose.Schema({
     type: String,
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Некорректный URL',
+      message: BAD_URL_MSG,
     },
   },
   trailerLink: {
@@ -34,7 +35,7 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'Поле "trailerLink" должно быть заполнено'],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Некорректный URL',
+      message: BAD_URL_MSG,
     },
   },
   thumbnail: {
@@ -42,7 +43,7 @@ const movieSchema = new mongoose.Schema({
     required: [true, 'Поле "thumbnail" должно быть заполнено'],
     validate: {
       validator: (v) => validator.isURL(v),
-      message: 'Некорректный URL',
+      message: BAD_URL_MSG,
     },
   },
   owner: {

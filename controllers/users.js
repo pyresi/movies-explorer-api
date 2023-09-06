@@ -1,4 +1,5 @@
 const User = require('../models/user');
+const { MISSING_USER_MSG, DUPLICATION_EMAIL_ERROR_MSG } = require('../util/constants');
 const DuplicationError = require('../util/errors/DuplicationError');
 const MissingError = require('../util/errors/MissingError');
 
@@ -7,7 +8,7 @@ const bcrypt = require('bcryptjs');
 function handleAndSendUser(user, res) {
   if (user === null) {
     return Promise.reject(
-      new MissingError('Запрашиваемый пользователь не найден'),
+      new MissingError(MISSING_USER_MSG),
     );
   }
   return res.send({ data: user });
@@ -41,7 +42,7 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) {
-        return next(new DuplicationError('Ошибка авторизации: такой email уже существует'));
+        return next(new DuplicationError(DUPLICATION_EMAIL_ERROR_MSG));
       }
       return next(err);
     }
