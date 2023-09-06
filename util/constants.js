@@ -17,6 +17,12 @@ module.exports.ERROR_LOG_FILE = 'error.log';
 
 
 module.exports.HTTP_SUCCESS_CODE = 201;
+module.exports.HTTP_BAD_ATHORIZATION_CODE = 401;
+module.exports.HTTP_BAD_REQUEST_CODE = 400;
+module.exports.HTTP_FORBIDDEN_CODE = 403;
+module.exports.HTTP_DUPLICATION_CODE = 409;
+module.exports.HTTP_MISSING_CODE = 404;
+
 
 module.exports.DEV_SECRET = 'dev-secret';
 
