@@ -29,5 +29,5 @@ module.exports.DEV_SECRET = 'dev-secret';
 module.exports.PRODUCTION_MODE = 'production';
 module.exports.DEFAULT_EXPIRATION = '7d';
 
-module.exports.DEFAULT_PORT = 3001;
+module.exports.DEFAULT_PORT = 3000;
 module.exports.DEFAULT_DB_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb';
