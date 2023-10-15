@@ -1,0 +1,15 @@
+const { DEFAULT_ERROR_MSG } = require("./constants");
+
+
+module.exports.handleErrors = (res, err) => {
+  const { statusCode = 500, message } = err;
+
+  res
+    .status(statusCode)
+    .send({
+      // проверяем статус и выставляем сообщение в зависимости от него
+      message: statusCode === 500
+        ? DEFAULT_ERROR_MSG
+        : message
+    });
+};
