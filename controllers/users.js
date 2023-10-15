@@ -1,5 +1,7 @@
 const User = require('../models/user');
-const { MISSING_USER_MSG, DUPLICATION_EMAIL_ERROR_MSG } = require('../util/constants');
+const jwt = require('jsonwebtoken'); // импортируем модуль jsonwebtoken
+const { MISSING_USER_MSG, DUPLICATION_EMAIL_ERROR_MSG, DEV_SECRET, PRODUCTION_MODE, DEFAULT_EXPIRATION } = require('../util/constants');
+const { NODE_ENV, JWT_SECRET } = process.env;
 const DuplicationError = require('../util/errors/DuplicationError');
 const MissingError = require('../util/errors/MissingError');
 
@@ -38,7 +40,14 @@ module.exports.createUser = (req, res, next) => {
     .then(hash => User.create({ name, email, password: hash }))
     .then(user => {
       const { name, email } = user;
-      return res.status(201).send({ data: { name, email } });
+
+      const token = jwt.sign(
+        { _id: user._id },
+        NODE_ENV === PRODUCTION_MODE ? JWT_SECRET : DEV_SECRET,
+        { expiresIn: DEFAULT_EXPIRATION }
+      )
+
+      return res.status(201).send({ data: { name, email, token } });
     })
     .catch((err) => {
       if (err.code === 11000) {

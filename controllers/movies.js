@@ -30,8 +30,10 @@ module.exports.postMovieInfo = (req, res, next) => {
 };
 
 module.exports.deleteMovieById = (req, res, next) => {
+  // console.log(req.params.movieId);
   Movie.findById(req.params.movieId)
     .then((movie) => {
+      console.log(movie);
       if (movie === null) {
         return Promise.reject(
           new MissingError(MISSING_MOVIE_MSG),

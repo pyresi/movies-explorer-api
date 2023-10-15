@@ -34,9 +34,9 @@ app.use(requestLogger);
 const allowedCors = [
   'https://api.pyresi.movies.nomoredomainsicu.ru',
   'http://api.pyresi.movies.nomoredomainsicu.ru',
-  'https://pyresi.movies.nomoredomainsicu.ru',
-  'http://pyresi.movies.nomoredomainsicu.ru',
-  'localhost:3000'
+  'https://pyresi.movies.nomoredomainsrocks.ru',
+  'http://pyresi.movies.nomoredomainsrocks.ru',
+  'http://localhost:3000'
 ];
 
 app.use(function (req, res, next) {
